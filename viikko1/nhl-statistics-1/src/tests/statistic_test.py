@@ -33,7 +33,28 @@ class TestStatistics(unittest.TestCase):
     
     def test_top(self):
         haetaan = self.statistics.top(4)
-        top5 = [haetaan[0].name, haetaan[1].name, haetaan[2].name,
+        top4 = [haetaan[0].name, haetaan[1].name, haetaan[2].name,
             haetaan[3].name
             ]
-        self.assertEqual(top5, ["Gretzky", "Lemieux", "Yzerman", "Kurri"])
+        self.assertEqual(top4, ["Gretzky", "Lemieux", "Yzerman", "Kurri"])
+    
+    def test_parhausperuste_1(self):
+        haetaan = self.statistics.top(4, 1)
+        top4 = [haetaan[0].name, haetaan[1].name, haetaan[2].name,
+            haetaan[3].name
+            ]
+        self.assertEqual(top4, ["Gretzky", "Lemieux", "Yzerman", "Kurri"])
+
+    def test_parhausperuste_2(self):
+        haetaan = self.statistics.top(4, 2)
+        top4 = [haetaan[0].name, haetaan[1].name, haetaan[2].name,
+            haetaan[3].name
+            ]
+        self.assertEqual(top4, ["Lemieux", "Yzerman", "Kurri", "Gretzky"])
+    
+    def test_parhausperuste_3(self):
+        haetaan = self.statistics.top(4, 3)
+        top4 = [haetaan[0].name, haetaan[1].name, haetaan[2].name,
+            haetaan[3].name
+            ]
+        self.assertEqual(top4, ["Gretzky", "Yzerman", "Lemieux", "Kurri"])
