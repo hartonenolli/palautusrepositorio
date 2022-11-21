@@ -14,8 +14,8 @@ class PlayerStats:
         players = []
         response_values = []
         for values in self.response:
-            #if values.get('nationality') == 'FIN':
-            if 'FIN' in values.get('nationality'):
+            if values.get('nationality') == nationality:
+            #if 'FIN' in values.get(nationality):
                 response_values.append(values)
 
         for player_dict in response_values:
