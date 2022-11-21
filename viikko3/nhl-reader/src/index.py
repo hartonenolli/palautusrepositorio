@@ -1,6 +1,21 @@
 import requests
 from player import Player
 
+def filter_players(players):
+    list = []
+    isoin = 0
+    isoin_pelaaja = None
+    while players != []:
+        for player in players:
+            arvo = player.molemmat
+            if arvo >= isoin:
+                isoin = arvo
+                isoin_pelaaja = player
+        list.append(isoin_pelaaja)
+        players.remove(isoin_pelaaja)
+        isoin = 0
+    return list
+
 def main():
     url = "https://studies.cs.helsinki.fi/nhlstats/2021-22/players"
     response = requests.get(url).json()
@@ -25,8 +40,9 @@ def main():
         players.append(player)
 
     #print("Oliot:")
+    filtered_list = filter_players(players)
 
-    for player in players:
+    for player in filtered_list:
         print(player)
 
 if __name__ == "__main__":
