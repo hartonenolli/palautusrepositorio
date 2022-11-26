@@ -155,3 +155,67 @@ class TestKauppa(unittest.TestCase):
         kauppa.tilimaksu("jari", "5555")
 
         pankki_mock.tilisiirto.assert_called_with('jari', 42, '5555', '33333-44455', 6)
+
+    def test_aloita_asiointi_nollaantuu(self):
+        pankki_mock = Mock()
+        varasto_mock = Mock()
+        viitegeneraattori_mock = Mock()
+
+        viitegeneraattori_mock.uusi.side_effect = [42, 43]
+
+        def varasto_saldo(t_id):
+            if t_id == 1:
+                return 5
+        
+        def varasto_hae_tuote(t_id):
+            if t_id == 1:
+                return Tuote(1, "kossuvissy", 7)
+        
+        varasto_mock.saldo.side_effect = varasto_saldo
+        varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
+
+        kauppa = Kauppa(varasto_mock, pankki_mock, viitegeneraattori_mock)
+
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.tilimaksu("pekko", "1975")
+
+        pankki_mock.tilisiirto.assert_called_with('pekko', 42, '1975', '33333-44455', 7)
+
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.tilimaksu("simo", "8888")
+
+        pankki_mock.tilisiirto.assert_called_with('simo', 43, '8888', '33333-44455', 7)
+
+    def test_poista_korista(self):
+        pankki_mock = Mock()
+        varasto_mock = Mock()
+        viitegeneraattori_mock = Mock()
+
+        viitegeneraattori_mock.uusi.return_value = 42
+
+        def varasto_saldo(t_id):
+            if t_id == 1:
+                return 3
+            elif t_id == 2:
+                return 4
+        
+        def varasto_hae_tuote(t_id):
+            if t_id == 1:
+                return Tuote(1, "rommitoti", 6)
+            elif t_id == 2:
+                return Tuote(2, "kissakalenteri", 10)
+
+        varasto_mock.saldo.side_effect = varasto_saldo
+        varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
+        
+        kauppa = Kauppa(varasto_mock, pankki_mock, viitegeneraattori_mock)
+
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.lisaa_koriin(2)
+        kauppa.poista_korista(1)
+        kauppa.tilimaksu("jamppa", "6666")
+
+        pankki_mock.tilisiirto.assert_called_with('jamppa', 42, '6666', '33333-44455', 10)
