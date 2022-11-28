@@ -84,3 +84,31 @@ class TestOstoskori(unittest.TestCase):
 
         ostos = self.kori.ostokset()
         self.assertEqual(str(ostos), "[Maito hinta 3 euroa]")
+    
+    def test_korissa_2_samaa_tuotetta_poista_toinen(self):
+        maito = Tuote("Maito", 3)
+        self.kori.lisaa_tuote(maito)
+        self.kori.lisaa_tuote(maito)
+        self.kori.poista_tuote(maito)
+
+        self.assertEqual(self.kori.tavaroita_korissa(), 1)
+
+    def test_korissa_tuote_ja_poisto(self):
+        maito = Tuote("Maito", 3)
+        self.kori.lisaa_tuote(maito)
+        self.kori.poista_tuote(maito)
+
+        self.assertEqual(self.kori.tavaroita_korissa(), 0)
+
+    def test_tyhjenna_kori(self):
+        maito = Tuote("Maito", 3)
+        juusto = Tuote("Juusto", 6)
+        self.kori.lisaa_tuote(maito)
+        self.kori.lisaa_tuote(maito)
+        self.kori.lisaa_tuote(juusto)
+
+        self.kori.tyhjenna()
+        
+        self.assertEqual(self.kori.tavaroita_korissa(), 0)
+        ostokset = self.kori.ostokset()
+        self.assertEqual(len(ostokset), 0)

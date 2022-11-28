@@ -26,10 +26,18 @@ class Ostoskori:
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
-        pass
+        index = 0
+        for tavara in self.tuotteet:
+            if tavara is poistettava:
+                self.tuotteet.pop(index)
+                self.maara -= 1
+                break
+            index += 1
 
     def tyhjenna(self):
-        pass
+        self.summa = 0
+        self.maara = 0
+        self.tuotteet = []
         # tyhjentää ostoskorin
 
     def ostokset(self):
