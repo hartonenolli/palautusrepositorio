@@ -35,7 +35,8 @@ class Ostoskori:
     def ostokset(self):
         lista = []
         for tuote in self.tuotteet:
-            lista.append(tuote)
+            if tuote not in lista:
+                lista.append(tuote)
         return lista
 
         # palauttaa listan jossa on korissa olevat ostos-oliot
