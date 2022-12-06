@@ -32,9 +32,12 @@ class Nollaus:
         self.sovelluslogiikka.nollaa()
 
 class Kumoa:
-    def __init__(self, sovelluslogiikka, syöte):
+    def __init__(self, sovelluslogiikka):
         self.sovelluslogiikka = sovelluslogiikka
-        self.syöte = syöte
+
+    def suorita(self, syöte):
+        
+        self.sovelluslogiikka.kumoa()
 
 class Kayttoliittyma:
     def __init__(self, sovelluslogiikka, root):
@@ -45,7 +48,7 @@ class Kayttoliittyma:
             Komento.SUMMA: Summa(sovelluslogiikka),
             Komento.EROTUS: Erotus(sovelluslogiikka),
             Komento.NOLLAUS: Nollaus(sovelluslogiikka),
-            Komento.KUMOA: Kumoa(sovelluslogiikka, self._lue_syote)
+            Komento.KUMOA: Kumoa(sovelluslogiikka)
             }
 
         self._tulos_var = StringVar()
