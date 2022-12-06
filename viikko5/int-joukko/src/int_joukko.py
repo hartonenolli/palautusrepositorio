@@ -46,28 +46,11 @@ class IntJoukko:
         return False
 
     def poista(self, luku):
-        kohta = -1
-        #self.luku_jono = list(map(lambda x: x.replace(luku,0),self.luku_jono))
-        #apu = 0
         for i, c in enumerate(self.luku_jono):
             if luku == c:
-                self.luku_jono[i] = 0
-                break
-
-        #for i in range(0, self.alkioiden_maara):
-        #    if n == self.luku_jono[i]:
-        #        kohta = i  # siis luku löytyy tuosta kohdasta :D
-        #        self.luku_jono[kohta] = 0
-        #        break
-
-        if kohta != -1:
-            for j in range(kohta, self.alkioiden_maara - 1):
-                apu = self.luku_jono[j]
-                self.luku_jono[j] = self.luku_jono[j + 1]
-                self.luku_jono[j + 1] = apu
-
-            self.alkioiden_maara = self.alkioiden_maara - 1
-            return True
+                self.luku_jono.remove(luku)
+                self.alkioiden_maara -= 1
+                return True
 
         return False
 
